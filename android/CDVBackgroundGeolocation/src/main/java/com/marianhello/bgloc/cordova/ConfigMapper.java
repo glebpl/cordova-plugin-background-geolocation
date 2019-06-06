@@ -98,6 +98,10 @@ public class ConfigMapper {
                 config.setTemplate(LocationTemplateFactory.fromJSON(postTemplate));
             }
         }
+        // fork: min interval used to post coordinates to the server
+        if (jObject.has("minPostInterval")) {
+            config.setMinPostInterval(jObject.getInt("minPostInterval"));
+        }
 
         return config;
     }
@@ -127,6 +131,8 @@ public class ConfigMapper {
         json.put("syncThreshold", config.getSyncThreshold());
         json.put("httpHeaders", new JSONObject(config.getHttpHeaders()));
         json.put("maxLocations", config.getMaxLocations());
+        // fork: min interval used to post coordinates to the server
+        json.put("minPostInterval", config.getMinPostInterval());
         LocationTemplate tpl = config.getTemplate();
         Object template = JSONObject.NULL;
         if (tpl instanceof HashMapLocationTemplate) {

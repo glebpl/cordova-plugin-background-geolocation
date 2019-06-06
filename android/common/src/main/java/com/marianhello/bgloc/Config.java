@@ -63,6 +63,8 @@ public class Config implements Parcelable
     private HashMap httpHeaders;
     private Integer maxLocations;
     private LocationTemplate template;
+    // fork: min interval used to post coordinates to the server
+    private Integer minPostInterval;
 
     public Config () {
     }
@@ -151,6 +153,8 @@ public class Config implements Parcelable
         config.httpHeaders = null;
         config.maxLocations = 10000;
         config.template = null;
+        // fork: min interval used to post coordinates to the server
+        config.minPostInterval = null;
 
         return config;
     }
@@ -182,6 +186,8 @@ public class Config implements Parcelable
         out.writeString(getUrl());
         out.writeString(getSyncUrl());
         out.writeInt(getSyncThreshold());
+        // fork: min interval used to post coordinates to the server
+        out.writeInt(getMinPostInterval());
         out.writeInt(getMaxLocations());
         Bundle bundle = new Bundle();
         bundle.putSerializable("httpHeaders", getHttpHeaders());
@@ -520,6 +526,19 @@ public class Config implements Parcelable
         this.template = template;
     }
 
+    // fork: min interval used to post coordinates to the server
+    public boolean hasMinPostInterval() {
+        return minPostInterval != null;
+    }
+
+    public Integer getMinPostInterval() {
+        return this.minPostInterval;
+    }
+
+    public void setMinPostInterval(Integer minPostInterval) {
+        this.minPostInterval = minPostInterval;
+    }
+
     @Override
     public String toString () {
         return new StringBuffer()
@@ -547,6 +566,8 @@ public class Config implements Parcelable
                 .append(" httpHeaders=").append(getHttpHeaders().toString())
                 .append(" maxLocations=").append(getMaxLocations())
                 .append(" postTemplate=").append(hasTemplate() ? getTemplate().toString() : null)
+                // fork: min interval used to post coordinates to the server
+                .append(" minPostInterval=").append(hasMinPostInterval() ? getMinPostInterval() : null)
                 .append("]")
                 .toString();
     }
@@ -638,6 +659,10 @@ public class Config implements Parcelable
         }
         if (config2.hasTemplate()) {
             merger.setTemplate(config2.getTemplate());
+        }
+        // fork: min interval used to post coordinates to the server
+        if (config2.hasMinPostInterval()) {
+            merger.setMinPostInterval(config2.getMinPostInterval());
         }
 
         return merger;
