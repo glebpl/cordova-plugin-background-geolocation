@@ -2,10 +2,10 @@
 
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-mauron85-background-geolocation"
+        id="cordova-plugin-mauron85-background-geolocation-fork"
         version="3.0.3">
     <name>CDVBackgroundGeolocation</name>
-    <description>Cordova Background Geolocation Plugin</description>
+    <description>Cordova Background Geolocation Plugin  (Forked by glebpl)</description>
     <license>Apache-2.0</license>
     <keywords>cordova,phonegap,background,geolocation,gps,location</keywords>
 
