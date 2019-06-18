@@ -20,8 +20,10 @@ public class NotificationHelper {
     public static final String ANDROID_PERMISSIONS_CHANNEL_ID = "android-permissions";
 
     public static final String SYNC_CHANNEL_ID = "syncservice";
-    public static final String SYNC_CHANNEL_NAME = "Sync Service";
-    public static final String SYNC_CHANNEL_DESCRIPTION = "Shows sync progress";
+    // fork: service name moved to resources
+    // public static final String SYNC_CHANNEL_NAME = "Sync Service";
+    // fork: not used
+    // public static final String SYNC_CHANNEL_DESCRIPTION = "Shows sync progress";
 
     public static class NotificationFactory {
         private Context mContext;
@@ -86,23 +88,27 @@ public class NotificationHelper {
 
     public static void registerAllChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String appName = ResourceResolver.newInstance(context).getString(("app_name"));
+            // fork: channel names changed using resources
+            String serviceChannelName = ResourceResolver.newInstance(context).getString(("mauron85_bgloc_service_name"));
+            String syncChannelName = ResourceResolver.newInstance(context).getString(("mauron85_bgloc_sync_service_name"));
+            String permChannelName = ResourceResolver.newInstance(context).getString(("mauron85_bgloc_perm_service_name"));
             // Create the NotificationChannel, but only on API 26+ because
             // the NotificationChannel class is new and not in the support library
             android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(createServiceChannel(appName));
-            notificationManager.createNotificationChannel(createSyncChannel());
-            notificationManager.createNotificationChannel(createAndroidPermissionsChannel(appName));
+            notificationManager.createNotificationChannel(createServiceChannel(serviceChannelName));
+            notificationManager.createNotificationChannel(createSyncChannel(syncChannelName));
+            notificationManager.createNotificationChannel(createAndroidPermissionsChannel(permChannelName));
         }
     }
 
     public static void registerServiceChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String appName = ResourceResolver.newInstance(context).getString(("app_name"));
+            // fork: service name channel changed using resources
+            String serviceChannelName = ResourceResolver.newInstance(context).getString(("mauron85_bgloc_service_name"));
             // Create the NotificationChannel, but only on API 26+ because
             // the NotificationChannel class is new and not in the support library
             android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(createServiceChannel(appName));
+            notificationManager.createNotificationChannel(createServiceChannel(serviceChannelName));
         }
     }
 
@@ -110,8 +116,10 @@ public class NotificationHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel, but only on API 26+ because
             // the NotificationChannel class is new and not in the support library
+            // fork: service name channel changed using resources
+            String syncChannelName = ResourceResolver.newInstance(context).getString(("mauron85_bgloc_sync_service_name"));
             android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(createSyncChannel());
+            notificationManager.createNotificationChannel(createSyncChannel(syncChannelName));
         }
     }
 
@@ -119,14 +127,19 @@ public class NotificationHelper {
     public static NotificationChannel createServiceChannel(CharSequence name) {
         NotificationChannel channel = new NotificationChannel(SERVICE_CHANNEL_ID, name, android.app.NotificationManager.IMPORTANCE_LOW);
         channel.enableVibration(false);
+        // fork: do not show badge counter
+        channel.setShowBadge(false);
         return channel;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static NotificationChannel createSyncChannel(){
-        NotificationChannel channel = new NotificationChannel(SYNC_CHANNEL_ID, SYNC_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
-        channel.setDescription(SYNC_CHANNEL_DESCRIPTION);
+    public static NotificationChannel createSyncChannel(CharSequence name){
+        NotificationChannel channel = new NotificationChannel(SYNC_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW);
+        // fork: escluded because we really do not need syncronization
+        // channel.setDescription(SYNC_CHANNEL_DESCRIPTION);
         channel.enableVibration(false);
+        // fork: do not show badge counter
+        channel.setShowBadge(false);
         return channel;
     }
 
@@ -134,6 +147,8 @@ public class NotificationHelper {
     public static NotificationChannel createAndroidPermissionsChannel(CharSequence name ){
         NotificationChannel channel = new NotificationChannel(ANDROID_PERMISSIONS_CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
         channel.enableVibration(false);
+        // fork: do not show badge counter
+        channel.setShowBadge(false);
         return channel;
     }
 }

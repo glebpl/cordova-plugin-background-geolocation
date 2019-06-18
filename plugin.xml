@@ -188,6 +188,31 @@
             <string name="mauron85_bgloc_account_name">$ACCOUNT_NAME</string>
             <string name="mauron85_bgloc_account_type">$ACCOUNT_TYPE</string>
             <string name="mauron85_bgloc_content_authority">$CONTENT_AUTHORITY</string>
+			<!-- fork: strings for service names added -->
+			<string name="mauron85_bgloc_service_name">Geolocation</string>
+			<string name="mauron85_bgloc_sync_service_name">Syncronization service</string>
+			<string name="mauron85_bgloc_perm_service_name">Permission request</string>
+        </config-file>
+		
+		<!-- fork: strings for service names added -->
+		<config-file target="res/values-ru/strings.xml" parent="/resources">
+			<string name="mauron85_bgloc_service_name">Геолокация (уведомление)</string>
+			<string name="mauron85_bgloc_sync_service_name">Служба синхронизации</string>
+			<string name="mauron85_bgloc_perm_service_name">Запрос разрешений</string>
+        </config-file>
+		
+		<!-- fork: strings for service names added -->
+		<config-file target="res/values-it/strings.xml" parent="/resources">	
+			<string name="mauron85_bgloc_service_name">Notifica di geolocalizzazione</string>
+			<string name="mauron85_bgloc_sync_service_name">Servizio di sincronizzazione</string>
+			<string name="mauron85_bgloc_perm_service_name">Richiesta di permesso</string>
+        </config-file>
+		
+		<!-- fork: strings for service names added -->
+		<config-file target="res/values-ву/strings.xml" parent="/resources">
+			<string name="mauron85_bgloc_service_name">Geolocation-Benachrichtigung</string>
+			<string name="mauron85_bgloc_sync_service_name">Synchronisierungsdienst</string>
+			<string name="mauron85_bgloc_perm_service_name">Erlaubnisanfrage</string>
         </config-file>
 
         <edit-config file="res/xml/authenticator.xml" target="/*" mode="overwrite">
