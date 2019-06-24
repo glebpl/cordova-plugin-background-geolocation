@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mauron85_bgloc_service_name">Геолокация (уведомление)</string>
+	<string name="mauron85_bgloc_sync_service_name">Служба синхронизации</string>
+	<string name="mauron85_bgloc_perm_service_name">Запрос разрешений</string>
+</resources>

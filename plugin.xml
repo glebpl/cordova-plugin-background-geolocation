@@ -122,6 +122,12 @@
 
         <resource-file src="android/common/src/main/res/xml/syncadapter.xml" target="res/xml/syncadapter.xml" />
         <resource-file src="android/common/src/main/res/xml/authenticator.xml" target="res/xml/authenticator.xml" />
+		
+		<!-- fork: strings for service names added -->
+		<resource-file src="android/common/src/main/res/values/bgloc_strings.xml" target="res/values/bgloc_strings.xml" />
+		<resource-file src="android/common/src/main/res/values-ru/bgloc_strings.xml" target="res/values-ru/bgloc_strings.xml" />
+		<resource-file src="android/common/src/main/res/values-it/bgloc_strings.xml" target="res/values-it/bgloc_strings.xml" />
+		<resource-file src="android/common/src/main/res/values-de/bgloc_strings.xml" target="res/values-de/bgloc_strings.xml" />
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
@@ -183,36 +189,12 @@
                 <param name="android-package" value="com.tenforwardconsulting.bgloc.cordova.BackgroundGeolocationPlugin"/>
             </feature>
         </config-file>
-
-        <config-file target="res/values/strings.xml" parent="/resources">
-            <string name="mauron85_bgloc_account_name">$ACCOUNT_NAME</string>
-            <string name="mauron85_bgloc_account_type">$ACCOUNT_TYPE</string>
-            <string name="mauron85_bgloc_content_authority">$CONTENT_AUTHORITY</string>
-			<!-- fork: strings for service names added -->
-			<string name="mauron85_bgloc_service_name">Geolocation</string>
-			<string name="mauron85_bgloc_sync_service_name">Syncronization service</string>
-			<string name="mauron85_bgloc_perm_service_name">Permission request</string>
-        </config-file>
 		
-		<!-- fork: strings for service names added -->
-		<config-file target="res/values-ru/strings.xml" parent="/resources">
-			<string name="mauron85_bgloc_service_name">Геолокация (уведомление)</string>
-			<string name="mauron85_bgloc_sync_service_name">Служба синхронизации</string>
-			<string name="mauron85_bgloc_perm_service_name">Запрос разрешений</string>
-        </config-file>
-		
-		<!-- fork: strings for service names added -->
-		<config-file target="res/values-it/strings.xml" parent="/resources">	
-			<string name="mauron85_bgloc_service_name">Notifica di geolocalizzazione</string>
-			<string name="mauron85_bgloc_sync_service_name">Servizio di sincronizzazione</string>
-			<string name="mauron85_bgloc_perm_service_name">Richiesta di permesso</string>
-        </config-file>
-		
-		<!-- fork: strings for service names added -->
-		<config-file target="res/values-ву/strings.xml" parent="/resources">
-			<string name="mauron85_bgloc_service_name">Geolocation-Benachrichtigung</string>
-			<string name="mauron85_bgloc_sync_service_name">Synchronisierungsdienst</string>
-			<string name="mauron85_bgloc_perm_service_name">Erlaubnisanfrage</string>
+		<!-- fork: translatable false added to prevent errors indication -->
+        <config-file target="res/values/bgloc_strings.xml" parent="/resources">
+            <string name="mauron85_bgloc_account_name" translatable="false">$ACCOUNT_NAME</string>
+            <string name="mauron85_bgloc_account_type" translatable="false">$ACCOUNT_TYPE</string>
+            <string name="mauron85_bgloc_content_authority" translatable="false">$CONTENT_AUTHORITY</string>
         </config-file>
 
         <edit-config file="res/xml/authenticator.xml" target="/*" mode="overwrite">

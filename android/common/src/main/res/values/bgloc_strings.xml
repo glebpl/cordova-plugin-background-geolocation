@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mauron85_bgloc_service_name">Geolocation</string>
+	<string name="mauron85_bgloc_sync_service_name">Synchronization service</string>
+	<string name="mauron85_bgloc_perm_service_name">Permission request</string>
+</resources>

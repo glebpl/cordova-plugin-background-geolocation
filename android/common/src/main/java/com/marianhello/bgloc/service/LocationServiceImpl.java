@@ -19,8 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Binder;
@@ -35,9 +33,7 @@ import android.os.Process;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.github.jparkie.promise.Action;
 import com.github.jparkie.promise.Promise;
-import com.github.jparkie.promise.Schedulers;
 import com.marianhello.bgloc.Config;
 import com.marianhello.bgloc.ConnectivityListener;
 import com.marianhello.bgloc.LocationManager;
@@ -62,7 +58,6 @@ import com.marianhello.bgloc.sync.AccountHelper;
 import com.marianhello.bgloc.sync.SyncService;
 import com.marianhello.logging.LoggerManager;
 import com.marianhello.logging.UncaughtExceptionLogger;
-import com.marianhello.utils.Tone;
 
 import org.chromium.content.browser.ThreadUtils;
 import org.json.JSONException;
@@ -751,17 +746,17 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
      * Fork: Sets timeout to ensure periodical update
      */
     private void setPeriodicalPostTimeout() {
-        logger.debug("setPeriodicalPostTimeout");
         clearPeriodicalPostTimeout();
         Config config = getConfig();
-        mPeriodicalHandler.postDelayed(postPeriodicalLocation, config.getMinPostInterval());
+        Integer minPostInterval = config.getMinPostInterval();
+        if(minPostInterval == null || minPostInterval <= 0) return;
+        mPeriodicalHandler.postDelayed(postPeriodicalLocation, minPostInterval);
     }
 
     /**
      * Fork: Clears timeout for periodical coordinates update
      */
     private void clearPeriodicalPostTimeout() {
-        logger.debug("clearPeriodicalPostTimeout");
         mPeriodicalHandler.removeCallbacks(postPeriodicalLocation);
     }
 
@@ -774,12 +769,15 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
         public void run() {
             Config config = getConfig();
             Integer minPostInterval = config.getMinPostInterval();
+
+            if(minPostInterval == null || minPostInterval <= 0) return;
+
             // Special flag is used because promise.cancel() doesn't work
             // Getting of location for strange reasons blocks execution and sets result/error
             // before cancel() is called
             mPeriodicalPromiseCancelled = false;
 
-            logger.debug("==== We have to repeat location with minPostInterval = {}", minPostInterval);
+            // logger.debug("==== We have to repeat location with minPostInterval = {}", minPostInterval);
 
             LocationManager locationManager = LocationManager.getInstance(getApplicationContext());
             Promise<Location> promise = locationManager.getCurrentLocation(minPostInterval, minPostInterval, true);
@@ -788,30 +786,20 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
                 promise.await();
                 Location location = promise.get();
 
-                if(!mPeriodicalPromiseCancelled) {
-                    logger.debug("==== Promise NOT cancelled");
-                } else {
-                    logger.debug("==== Promise cancelled, no need to post");
-                }
-
                 if(sIsRunning && !mPeriodicalPromiseCancelled) {
                     if (location != null) {
-                        logger.debug("==== Got location to send");
-
-                        ToneGenerator toneGenerator = new android.media.ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+                        /*ToneGenerator toneGenerator = new android.media.ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
                         toneGenerator.startTone(Tone.LONG_BEEP, 200);
-                        toneGenerator.release();
+                        toneGenerator.release();*/
 
                         postLocation(BackgroundLocation.fromLocation(location));
                     } else {
-                        logger.debug("==== Geolocation failed, reset timeout to try again");
+                        logger.debug("Periodical geolocation failed, reset timeout to try again");
                         // just reset timeout to try again
                         setPeriodicalPostTimeout();
                     }
                 }
             } catch (InterruptedException e) {
-                // do nothing
-                logger.debug("==== Has InterruptedException");
                 Thread.currentThread().interrupt();
             }
         }
