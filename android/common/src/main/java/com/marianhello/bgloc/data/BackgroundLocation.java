@@ -929,7 +929,8 @@ public class BackgroundLocation implements Parcelable {
             return hasAltitude ? altitude : JSONObject.NULL;
         }
         if ("@bearing".equals(key)) {
-            return hasBearing ? bearing : JSONObject.NULL;
+            // Fork: round course/bearing
+            return hasBearing ? Math.round(bearing) : JSONObject.NULL;
         }
         if ("@radius".equals(key)) {
             return hasRadius ? radius : JSONObject.NULL;
