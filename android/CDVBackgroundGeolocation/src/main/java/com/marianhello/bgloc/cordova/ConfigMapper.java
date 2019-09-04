@@ -102,6 +102,10 @@ public class ConfigMapper {
         if (jObject.has("minPostInterval")) {
             config.setMinPostInterval(jObject.getInt("minPostInterval"));
         }
+        // fork: maximum age of last received location
+        if (jObject.has("maximumAge")) {
+            config.setMaximumAge(jObject.getLong("maximumAge"));
+        }
 
         return config;
     }

@@ -6,6 +6,7 @@ import com.marianhello.logging.LoggerManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+// fork: import
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutorService;
@@ -131,6 +132,9 @@ public class PostLocationTask {
         }
     }
 
+    /**
+     * Fork: logic changed to post 1 point
+     */
     private boolean postLocation(BackgroundLocation location) {
         logger.debug("Executing PostLocationTask#postLocation");
         // JSONArray jsonLocations = new JSONArray();

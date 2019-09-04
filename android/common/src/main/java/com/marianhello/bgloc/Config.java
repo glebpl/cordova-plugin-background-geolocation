@@ -35,6 +35,8 @@ public class Config implements Parcelable
     public static final int DISTANCE_FILTER_PROVIDER = 0;
     public static final int ACTIVITY_PROVIDER = 1;
     public static final int RAW_PROVIDER = 2;
+    // fork: default value for maximumAge
+    public static final long DEFAULT_MAXIMUM_AGE = 60000;
 
     // NULL string config option to distinguish between java null
     public static final String NullString = new String();
@@ -63,8 +65,9 @@ public class Config implements Parcelable
     private HashMap httpHeaders;
     private Integer maxLocations;
     private LocationTemplate template;
-    // fork: min interval used to post coordinates to the server
+    // fork: min interval used to post coordinates to the server and max location age
     private Integer minPostInterval;
+    private long maximumAge = DEFAULT_MAXIMUM_AGE;
 
     public Config () {
     }
@@ -153,8 +156,9 @@ public class Config implements Parcelable
         config.httpHeaders = null;
         config.maxLocations = 10000;
         config.template = null;
-        // fork: min interval used to post coordinates to the server
+        // fork: min interval used to post coordinates to the server and max location age
         config.minPostInterval = null;
+        config.maximumAge = DEFAULT_MAXIMUM_AGE;
 
         return config;
     }
@@ -186,8 +190,9 @@ public class Config implements Parcelable
         out.writeString(getUrl());
         out.writeString(getSyncUrl());
         out.writeInt(getSyncThreshold());
-        // fork: min interval used to post coordinates to the server
+        // fork: min interval used to post coordinates to the server and max location age
         out.writeInt(getMinPostInterval());
+        out.writeLong(getMaximumAge());
         out.writeInt(getMaxLocations());
         Bundle bundle = new Bundle();
         bundle.putSerializable("httpHeaders", getHttpHeaders());
@@ -539,6 +544,21 @@ public class Config implements Parcelable
         this.minPostInterval = minPostInterval;
     }
 
+    // fork: maximum age of previously received location
+    public boolean hasMaximumAge() {
+        return maximumAge > 0;
+    }
+
+    public long getMaximumAge() {
+        return this.maximumAge;
+    }
+
+    public void setMaximumAge(long maximumAge) {
+        if(maximumAge > 0) {
+            this.maximumAge = maximumAge;
+        }
+    }
+
     @Override
     public String toString () {
         return new StringBuffer()
@@ -566,8 +586,9 @@ public class Config implements Parcelable
                 .append(" httpHeaders=").append(getHttpHeaders().toString())
                 .append(" maxLocations=").append(getMaxLocations())
                 .append(" postTemplate=").append(hasTemplate() ? getTemplate().toString() : null)
-                // fork: min interval used to post coordinates to the server
+                // fork: min interval used to post coordinates to the server and max location age
                 .append(" minPostInterval=").append(hasMinPostInterval() ? getMinPostInterval() : null)
+                .append(" maximumAge=").append(hasMaximumAge() ? getMaximumAge() : null)
                 .append("]")
                 .toString();
     }
@@ -663,6 +684,10 @@ public class Config implements Parcelable
         // fork: min interval used to post coordinates to the server
         if (config2.hasMinPostInterval()) {
             merger.setMinPostInterval(config2.getMinPostInterval());
+        }
+        // fork: max age og previously received location
+        if (config2.hasMaximumAge()) {
+            merger.setMaximumAge(config2.getMaximumAge());
         }
 
         return merger;

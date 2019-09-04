@@ -40,8 +40,9 @@ public final class SQLiteConfigurationContract {
         public static final String COLUMN_NAME_HEADERS = "http_headers";
         public static final String COLUMN_NAME_MAX_LOCATIONS = "max_locations";
         public static final String COLUMN_NAME_TEMPLATE = "template";
-        // fork: min interval used to post coordinates to the server
+        // fork: min interval used to post coordinates to the server and max location age
         public static final String COLUMN_NAME_MIN_POST_INTERVAL = "min_post_interval";
+        public static final String COLUMN_NAME_MAXIMUM_AGE = "maximum_age";
 
         public static final String SQL_CREATE_CONFIG_TABLE =
                 "CREATE TABLE " + ConfigurationEntry.TABLE_NAME + " (" +
@@ -70,8 +71,9 @@ public final class SQLiteConfigurationContract {
                         ConfigurationEntry.COLUMN_NAME_HEADERS + TEXT_TYPE + COMMA_SEP +
                         ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS + INTEGER_TYPE + COMMA_SEP +
                         ConfigurationEntry.COLUMN_NAME_TEMPLATE + TEXT_TYPE + COMMA_SEP +
-                        // fork: min interval used to post coordinates to the server
+                        // fork: min interval used to post coordinates to the server and max location age
                         ConfigurationEntry.COLUMN_NAME_MIN_POST_INTERVAL + INTEGER_TYPE +
+                        ConfigurationEntry.COLUMN_NAME_MAXIMUM_AGE + INTEGER_TYPE +
                         " )";
 
         public static final String SQL_DROP_CONFIG_TABLE =
