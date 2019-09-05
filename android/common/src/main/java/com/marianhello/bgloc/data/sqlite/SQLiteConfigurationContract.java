@@ -72,7 +72,7 @@ public final class SQLiteConfigurationContract {
                         ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS + INTEGER_TYPE + COMMA_SEP +
                         ConfigurationEntry.COLUMN_NAME_TEMPLATE + TEXT_TYPE + COMMA_SEP +
                         // fork: min interval used to post coordinates to the server and max location age
-                        ConfigurationEntry.COLUMN_NAME_MIN_POST_INTERVAL + INTEGER_TYPE +
+                        ConfigurationEntry.COLUMN_NAME_MIN_POST_INTERVAL + INTEGER_TYPE + COMMA_SEP +
                         ConfigurationEntry.COLUMN_NAME_MAXIMUM_AGE + INTEGER_TYPE +
                         " )";
 
