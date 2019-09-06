@@ -120,6 +120,8 @@ public class NotificationHelper {
     public static NotificationChannel createServiceChannel(CharSequence name) {
         NotificationChannel channel = new NotificationChannel(SERVICE_CHANNEL_ID, name, android.app.NotificationManager.IMPORTANCE_LOW);
         channel.enableVibration(false);
+        // fork: disable badge for service ntf
+        channel.setShowBadge(false);
         return channel;
     }
 
@@ -128,6 +130,8 @@ public class NotificationHelper {
         NotificationChannel channel = new NotificationChannel(SYNC_CHANNEL_ID, SYNC_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(SYNC_CHANNEL_DESCRIPTION);
         channel.enableVibration(false);
+        // fork: disable badge for service ntf
+        channel.setShowBadge(false);
         return channel;
     }
 
@@ -135,6 +139,8 @@ public class NotificationHelper {
     public static NotificationChannel createAndroidPermissionsChannel(CharSequence name ){
         NotificationChannel channel = new NotificationChannel(ANDROID_PERMISSIONS_CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
         channel.enableVibration(false);
+        // fork: disable badge for service ntf
+        channel.setShowBadge(false);
         return channel;
     }
 }
